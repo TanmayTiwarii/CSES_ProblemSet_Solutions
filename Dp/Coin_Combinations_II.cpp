@@ -10,14 +10,12 @@ using namespace std;
 
 
 int func(vector<int> &v,int sum){
-    int dp[sum+1],mod=1e9+7;
-    for(int i=0;i<sum+1;i++)
-    dp[i]=0;
+    int mod=1e9+7;
+    vector<int>dp(sum+1,0);
     dp[0]=1;
-    for(int i=0;i<sum+1;i++){
-        for(int j=0;j<v.size();j++){
-            if(i+v[j]<=sum)
-            dp[i+v[j]]=(dp[i+v[j]]+dp[i])%mod;
+    for(int j=0;j<v.size();j++){
+        for(int i=v[j];i<sum+1;i++){
+            dp[i]=(dp[i]+dp[i-v[j]])%mod;
         }
     }
     return dp[sum];
