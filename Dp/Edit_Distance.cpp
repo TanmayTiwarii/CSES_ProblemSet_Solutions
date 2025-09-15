@@ -25,33 +25,35 @@ bool sortbysec(const pair<int,int> &a,const pair<int,int> &b){
 return (a.second < b.second);
 }
 //***************************************************************************************************************************************************
-int mod=1e9+7;
-int ans;
 
-int func(vector<int> &a,int i,int prev){
-    if(i==a.size()){
-        return 1;
+int func(string &s1,string &s2,int i,int j,vector<vector<int>> &dp){
+    if(i==s1.size()){
+        return dp[i][j]=max(0LL,(int)s2.size()-j);
     }
-    int res=0;
-    if(a[i]==0){
-        res+=func(a,i+1,prev-1);
-        res+=func(a,i+1,prev);
-        res+=func(a,i+1,prev+1);
+    if(j==s2.size()){
+        return dp[i][j]=max(0LL,(int)s1.size()-i);
     }
-    else
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    if(s1[i]==s2[j]){
+        return dp[i][j]=func(s1,s2,i+1,j+1,dp);
+    }
+    int ans=0;
+    ans=func(s1,s2,i+1,j+1,dp)+1;
+    ans=min(ans,func(s1,s2,i+1,j,dp)+1);
+    ans=min(ans,func(s1,s2,i,j+1,dp)+1);
+    return dp[i][j]=ans;
+
 }
 
 
 signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ans=0;
-    int n,m,i;
-    cin>>n>>m;
-    vector<int> a(n);
-    fo(0,n){
-        cin>>a[i];
-    }
-
+    string s1,s2;
+    cin>>s1>>s2;
+    vector<vector<int>> dp(s1.size()+1,vector<int>(s2.size()+1,-1));
+    cout<<func(s1,s2,0,0,dp)<<endl;
     return 0;
 }

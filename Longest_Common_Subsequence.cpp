@@ -25,33 +25,17 @@ bool sortbysec(const pair<int,int> &a,const pair<int,int> &b){
 return (a.second < b.second);
 }
 //***************************************************************************************************************************************************
-int mod=1e9+7;
-int ans;
 
-int func(vector<int> &a,int i,int prev){
-    if(i==a.size()){
-        return 1;
-    }
-    int res=0;
-    if(a[i]==0){
-        res+=func(a,i+1,prev-1);
-        res+=func(a,i+1,prev);
-        res+=func(a,i+1,prev+1);
-    }
-    else
-}
+
 
 
 signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ans=0;
-    int n,m,i;
-    cin>>n>>m;
-    vector<int> a(n);
-    fo(0,n){
-        cin>>a[i];
+    int t;
+    cin>>t;
+    while(t--){
+        int i,j,n,m;
     }
-
     return 0;
 }

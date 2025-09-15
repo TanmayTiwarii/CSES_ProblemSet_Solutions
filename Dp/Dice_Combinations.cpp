@@ -34,10 +34,10 @@ void count(vector<int> &v,int sum){
 
     dp[0]=1;
 
-    for(int i=0;i<n;i++){
+    for(int i=0;i<sum+1;i++){
         for(int j=0;j<n;j++){
             if(i+v[j]<=sum)
-            dp[i+v[j]]=(dp[i]+1)%mod;
+            dp[i+v[j]]=(dp[i+v[j]]+dp[i])%mod;
         }
     }
     cout<<dp[sum]<<endl;
