@@ -27,15 +27,55 @@ return (a.second < b.second);
 //***************************************************************************************************************************************************
 
 
-
+int func(vector<int> &a,vector<int> &b,int i,int j,vector<vector<int>> &dp){
+    if(i==a.size() || j==b.size()){
+        return 0LL;
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    int ans=0;
+    if(a[i]==b[j]){
+        ans=max(ans,func(a,b,i+1,j+1,dp)+1);
+    }
+    ans=max(ans,func(a,b,i,j+1,dp));
+    ans=max(ans,func(a,b,i+1,j,dp));
+    return dp[i][j]=ans;
+}
 
 signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int t;
-    cin>>t;
-    while(t--){
-        int i,j,n,m;
+    int n,m,i,j;
+    cin>>n>>m;
+    vector<int> a(n),b(m);
+    fo(0,n){
+        cin>>a[i];
     }
+    fo(0,m){
+        cin>>b[i];
+    }
+    vector<vector<int>> dp(n+1,vector<int>(m+1,-1));
+    int ans=func(a,b,0,0,dp);
+    cout<<ans<<endl;
+    i=0,j=0;
+    vector<int> lcs;
+    while(i<a.size() && j<b.size()){
+        if(a[i]==b[j]){
+            lcs.push_back(a[i]);
+            i++;
+            j++;
+        }
+        else if(dp[i+1][j]>=dp[i][j+1]){
+            i++;
+        }
+        else{
+            j++;
+        }
+    }
+    for(auto it:lcs){
+        cout<<it<<" ";
+    }
+    cout<<endl;
     return 0;
 }
