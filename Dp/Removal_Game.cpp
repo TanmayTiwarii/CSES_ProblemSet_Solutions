@@ -26,18 +26,32 @@ return (a.second < b.second);
 }
 //***************************************************************************************************************************************************
 
-int func(vector< int> &a,int start, int end){
 
+int func(vector<int> &a,int i,int j,int ans1,int ans2,int f){
+    if(i>j){
+        if(f==1){
+            return ans1;
+        }else{
+            return ans2;
+        }
+    }
+    if(f==1){
+        return max(func(a,i+1,j,ans1+a[i],ans2,0),func(a,i,j-1,ans1+a[j],ans2,0));
+    }
+    else{
+        return max(func(a,i+1,j,ans1,ans2+a[i],1),func(a,i,j-1,ans1,ans2+a[j],1));
+    }
 }
-
 
 signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int i,n;
+    int i,j,n,m;
     cin>>n;
-    vector <int> a(n);
-    fo(0,n)
-    cin>>a[i];
+    vector<int> a(n);
+    fo(0,n){
+        cin>>a[i];
+    }
+    cout<<func(a,0,n-1,0,0,1)<<endl;
     return 0;
 }

@@ -27,31 +27,39 @@ return (a.second < b.second);
 //***************************************************************************************************************************************************
 
 
-int func(vector<int> &a,int i,int j,int ans1,int ans2,int f){
-    if(i>j){
-        if(f==1){
-            return ans1;
-        }else{
-            return ans2;
-        }
-    }
-    if(f==1){
-        return max(func(a,i+1,j,ans1+a[i],ans2,0),func(a,i,j-1,ans1+a[j],ans2,0));
-    }
-    else{
-        return max(func(a,i+1,j,ans1,ans2+a[i],1),func(a,i,j-1,ans1,ans2+a[j],1));
-    }
-}
+
 
 signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int i,j,n,m;
-    cin>>n;
-    vector<int> a(n);
-    fo(0,n){
-        cin>>a[i];
+    int n,m,i;
+    cin>>n>>m;
+    vector<vector<pair<int,int>>> adj(n+1);
+    for(int i=0;i<m;i++){
+        int u,v,weight;
+        cin>>u>>v>>weight;
+        adj[u].push_back({v,weight});
     }
-    cout<<func(a,0,n-1,0,0,1)<<endl;
+    vector<int> dist(n+1,LONG_LONG_MAX);
+    dist[1]=0;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
+    q.push({0,1});
+    while(!q.empty()){
+        int u=q.top().second,v,weight,d=q.top().first;
+        q.pop();
+        if(d>dist[u])
+        continue;
+        for(auto it:adj[u]){
+            v=it.first;
+            weight=it.second;
+            if(dist[u]+weight<dist[v]){
+                dist[v]=dist[u]+weight;
+                q.push({dist[v],v});
+            }
+        }
+    }
+    for(int i=1;i<=n;i++){
+        cout<<dist[i]<<" ";
+    }
     return 0;
 }
