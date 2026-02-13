@@ -37,20 +37,20 @@ int build(int root,int low,int high,vector<int> &nums){
     int mid = (low+high)/2;
     seg[2*root+1] = build(2*root+1,low,mid,nums);
     seg[2*root+2] = build(2*root+2,mid+1,high,nums);
-    seg[root] = min(seg[2*root+2],seg[2*root+1]);
+    seg[root] = seg[2*root+2] ^ seg[2*root+1];
     return seg[root];
 }
 
 int sum(int root,int left,int right, int low,int high){
     if(low>right || left>high){
-        return INT_MAX;
+        return 0;
     }
     if(low>=left && high<=right){
         return seg[root];
     }
     else{
         int mid=(low+high)/2;
-        return min(sum(root*2+1,left,right,low,mid),sum(root*2+2,left,right,mid+1,high));
+        return sum(root*2+1,left,right,low,mid)^sum(root*2+2,left,right,mid+1,high);
     }
 
 }
